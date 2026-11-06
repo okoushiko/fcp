@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FCP · Free compute for Bay Area students</title>
-<meta name="description" content="Free cloud computing for Bay Area students who need code to run for hours, days, or weeks. Join the waitlist.">
+<title>FCP · Free compute for US high schoolers</title>
+<meta name="description" content="Free cloud computing for US high school students who need code to run for hours, days, or weeks. Join the waitlist.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -87,6 +87,15 @@
   input:focus,select:focus,textarea:focus{outline:none;border-color:var(--night);background:#fff}
   textarea{min-height:8rem;resize:vertical}
   .count{font-size:.82rem;color:var(--ink-soft);text-align:right;margin-top:.3rem}
+  .combo{position:relative}
+  .combo ul{position:absolute;z-index:5;left:0;right:0;top:100%;margin:.35rem 0 0;padding:.35rem;list-style:none;
+    background:#fff;border:1.5px solid var(--line);border-radius:12px;box-shadow:0 18px 40px -18px #161a3340;max-height:20rem;overflow:auto}
+  .combo li{padding:.55rem .65rem;border-radius:8px;cursor:pointer;line-height:1.3}
+  .combo li[aria-selected="true"]{background:var(--paper)}
+  .combo li b{display:block;font-weight:600}
+  .combo li small{color:var(--ink-soft);font-size:.85rem}
+  .combo li .tag{display:inline-block;margin-left:.4rem;font-size:.75rem;color:var(--night);background:#E3E1F3;border-radius:4px;padding:0 .35rem}
+  .combo li.note{cursor:default;color:var(--ink-soft);font-size:.9rem}
   .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
   button{font:600 1.05rem "Instrument Sans",sans-serif;background:var(--night);color:#fff;border:0;border-radius:999px;padding:.95rem 1.8rem;cursor:pointer;justify-self:start}
   button:hover{background:var(--night-2)}
@@ -149,7 +158,7 @@
     <div class="hero">
       <div>
         <h1>Your code can run all week. Your laptop doesn't have to.</h1>
-        <p class="lede">FCP gives Bay Area students free cloud computing for jobs that take hours, days, or weeks: model training, backtests, simulations. You send the code, it runs on sponsored hardware, you get the results.</p>
+        <p class="lede">FCP gives US high school students free cloud computing for jobs that take hours, days, or weeks: model training, backtests, simulations. You send the code, it runs on sponsored hardware, you get the results.</p>
       </div>
 
     </div>
@@ -187,7 +196,7 @@
         <h2>Would you use it?</h2>
         <p>Join the waitlist if you'd run something on FCP. The more students who join, the easier it is to get sponsors to fund the compute.</p>
         <ul>
-          <li>Free for Bay Area high school and college students</li>
+          <li>Free for high school students anywhere in the US</li>
           <li>Joining doesn't commit you to anything</li>
           <li>We'll only email you about FCP</li>
         </ul>
@@ -204,7 +213,13 @@
             <div><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" maxlength="120" required></div>
           </div>
           <div class="row">
-            <div><label for="school">School</label><input id="school" name="school" maxlength="100" required></div>
+            <div class="combo">
+              <label for="school">High school</label>
+              <input id="school" name="school" maxlength="100" required autocomplete="off"
+                role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="school-list"
+                placeholder="Start typing your school's name">
+              <ul id="school-list" role="listbox" hidden></ul>
+            </div>
             <div>
               <label for="compute">What would it need?</label>
               <select id="compute" name="compute" required>
@@ -255,10 +270,10 @@
 
 <footer>
   <div class="wrap notice">
-    <p><strong>FCP isn't running yet.</strong> It's a student-led idea we're working to launch, and no computing is available right now. We're gathering interest first: every person on the waitlist shows sponsors that Bay Area students need this, which makes it much more likely we can get the cloud credits to make it real. Joining the waitlist doesn't guarantee access, and we'll email you as soon as there's news.</p>
+    <p><strong>FCP isn't running yet.</strong> It's a student-led idea we're working to launch, and no computing is available right now. We're gathering interest first: every person on the waitlist shows sponsors that high schoolers need this, which makes it much more likely we can get the cloud credits to make it real. Joining the waitlist doesn't guarantee access, and we'll email you as soon as there's news.</p>
   </div>
   <div class="wrap">
-    <span>FCP, free compute for Bay Area students</span>
+    <span>FCP, free compute for US high schoolers</span>
     <span>Phase 1: measuring interest</span>
   </div>
 </footer>
@@ -284,6 +299,111 @@
     ts.async = true; document.head.appendChild(ts);
   }
 
+  // ---- school picker: live search of US high schools (NCES, U.S. Dept. of Education) ----
+  const NCES = "https://services1.arcgis.com/Ua5sjt3LWTPigjyD/ArcGIS/rest/services/";
+  const schoolInput = document.getElementById("school");
+  const list = document.getElementById("school-list");
+  let picked = null, options = [], active = -1, timer = 0, seq = 0;
+
+  const SMALL = new Set(["of","the","and","at","for","in","de","la"]);
+  const tidy = str => {
+    str = (str || "").trim().replace(/\s+/g, " ");
+    if (str !== str.toUpperCase()) return str;
+    return str.toLowerCase().replace(/\b[a-z][a-z']*/g, (w, i) =>
+      i > 0 && SMALL.has(w) ? w : w[0].toUpperCase() + w.slice(1));
+  };
+  const sqlSafe = t => t.toUpperCase().replace(/[^A-Z0-9 .'&-]/g, "").replace(/'/g, "''");
+
+  async function nces(svc, layer, nameF, cityF, stateF, extra, tokens, limit) {
+    const parts = tokens.map(t => `(UPPER(${nameF}) LIKE '%${t}%' OR UPPER(${cityF}) LIKE '%${t}%'` +
+      (t.length === 2 ? ` OR ${stateF} LIKE '${t}%'` : "") + ")");
+    if (extra) parts.push(extra);
+    const p = new URLSearchParams({ where: parts.join(" AND "), outFields: `${nameF},${cityF},${stateF}`,
+      returnGeometry: "false", resultRecordCount: String(limit), orderByFields: nameF, f: "json" });
+    const res = await fetch(`${NCES}${svc}/FeatureServer/${layer}/query?${p}`);
+    const j = await res.json();
+    if (j.error) throw new Error(j.error.message);
+    return (j.features || []).map(f => ({
+      name: tidy(f.attributes[nameF]), city: tidy(f.attributes[cityF]),
+      state: (f.attributes[stateF] || "").trim()
+    }));
+  }
+
+  function render(note) {
+    list.innerHTML = "";
+    options.forEach((o, i) => {
+      const li = document.createElement("li");
+      li.id = "school-opt-" + i; li.setAttribute("role", "option");
+      li.setAttribute("aria-selected", i === active ? "true" : "false");
+      if (o.manual) {
+        li.innerHTML = `<b></b><small>Not listed? Use what you typed</small>`;
+        li.querySelector("b").textContent = o.name;
+      } else {
+        li.innerHTML = `<b></b><small></small>`;
+        li.querySelector("b").textContent = o.name;
+        li.querySelector("small").textContent = `${o.city}, ${o.state}`;
+        if (o.private) li.querySelector("b").insertAdjacentHTML("beforeend", '<span class="tag">Private</span>');
+      }
+      li.addEventListener("mousedown", e => { e.preventDefault(); choose(i); });
+      list.appendChild(li);
+    });
+    if (note) {
+      const li = document.createElement("li"); li.className = "note"; li.textContent = note; list.appendChild(li);
+    }
+    const open = options.length > 0 || !!note;
+    list.hidden = !open;
+    schoolInput.setAttribute("aria-expanded", open ? "true" : "false");
+    if (active >= 0) schoolInput.setAttribute("aria-activedescendant", "school-opt-" + active);
+    else schoolInput.removeAttribute("aria-activedescendant");
+  }
+  const close = () => { options = []; active = -1; render(); };
+
+  function choose(i) {
+    const o = options[i]; if (!o) return;
+    picked = o;
+    schoolInput.value = o.manual ? o.name : `${o.name}, ${o.city}, ${o.state}`;
+    close();
+  }
+
+  async function search() {
+    const raw = schoolInput.value.trim();
+    const tokens = sqlSafe(raw).split(" ").filter(t => t.length >= 2).slice(0, 4);
+    if (raw.length < 2 || !tokens.length) return close();
+    const mine = ++seq;
+    render("Searching…");
+    try {
+      const [pub, priv] = await Promise.all([
+        nces("School_Characteristics_Current", 1, "SCH_NAME", "LCITY", "LSTATE",
+             "GSHI IN ('09','10','11','12','13')", tokens, 8),
+        nces("Private_School_Locations_Current", 0, "NAME", "CITY", "STATE", "", tokens, 5)
+      ]);
+      if (mine !== seq) return;
+      const first = tokens[0];
+      const rank = o => (o.name.toUpperCase().startsWith(first) ? 0 : 1);
+      options = [...pub, ...priv.map(o => ({ ...o, private: true }))]
+        .sort((a, b) => rank(a) - rank(b) || a.name.localeCompare(b.name)).slice(0, 10);
+      options.push({ name: raw.slice(0, 100), manual: true });
+      active = -1;
+      render(options.length === 1 ? "No US high schools match that yet. Try fewer words." : "");
+    } catch {
+      if (mine !== seq) return;
+      options = [{ name: raw.slice(0, 100), manual: true }]; active = -1;
+      render("School search isn't loading right now. You can still use what you typed.");
+    }
+  }
+
+  schoolInput.addEventListener("input", () => {
+    picked = null; clearTimeout(timer); timer = setTimeout(search, 250);
+  });
+  schoolInput.addEventListener("keydown", e => {
+    if (list.hidden || !options.length) return;
+    if (e.key === "ArrowDown") { e.preventDefault(); active = (active + 1) % options.length; render(); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); active = (active - 1 + options.length) % options.length; render(); }
+    else if (e.key === "Enter" && active >= 0) { e.preventDefault(); choose(active); }
+    else if (e.key === "Escape") { close(); }
+  });
+  schoolInput.addEventListener("blur", () => setTimeout(close, 120));
+
   // form
   const form = document.getElementById("form");
   const msg = document.getElementById("msg");
@@ -296,6 +416,7 @@
 
   const ERRORS = {
     invalid: "Check that every field is filled in and your email is correct.",
+    school: "Choose your high school from the list. If it isn't there, pick the \"Not listed\" option.",
     duplicate: "That email is already on the waitlist.",
     captcha: "The verification check didn't pass. Refresh the page and try again.",
     busy: "We're getting a lot of entries right now. Try again in a few minutes.",
@@ -313,6 +434,7 @@
     if (!f.name.trim() || !f.school.trim() || !f.compute || !f.duration || !f.use.trim() ||
         !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return showError("invalid");
 
+    if (!picked || schoolInput.value.trim() === "") { schoolInput.focus(); return showError("school"); }
     if (!READY) return showError("closed");
     const token = captchaToken;
     if (!token) return showError("captcha");
