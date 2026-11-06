@@ -1,15 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="FCP logo">
   <defs>
-    <!-- gunmetal body -->
-    <radialGradient id="body" cx="40%" cy="30%" r="80%">
-      <stop offset="0" stop-color="#4A5468"/>
-      <stop offset="0.55" stop-color="#262C3B"/>
-      <stop offset="1" stop-color="#12151E"/>
+    <!-- body: black center, blue glow from bottom right, a touch of yellow top right -->
+    <radialGradient id="blueGlow" cx="88%" cy="92%" r="95%">
+      <stop offset="0" stop-color="#2A5DA8"/>
+      <stop offset="0.35" stop-color="#173A73"/>
+      <stop offset="0.7" stop-color="#0A1834" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#05070D" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="yellowGlow" cx="86%" cy="6%" r="42%">
+      <stop offset="0" stop-color="#FFD24A" stop-opacity="0.75"/>
+      <stop offset="0.45" stop-color="#C9932A" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#05070D" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="rim" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#9AA3B5"/>
-      <stop offset="0.5" stop-color="#3A4152"/>
-      <stop offset="1" stop-color="#6F788B"/>
+      <stop offset="0" stop-color="#5E6A86"/>
+      <stop offset="0.5" stop-color="#1A2236"/>
+      <stop offset="1" stop-color="#3D5C93"/>
     </linearGradient>
     <!-- black glossy visor -->
     <linearGradient id="visor" x1="0" y1="0" x2="0" y2="1">
@@ -43,9 +49,11 @@
   </defs>
 
   <!-- body -->
-  <circle cx="100" cy="100" r="96" fill="url(#body)"/>
+  <circle cx="100" cy="100" r="96" fill="#05070D"/>
+  <circle cx="100" cy="100" r="96" fill="url(#blueGlow)"/>
+  <circle cx="100" cy="100" r="96" fill="url(#yellowGlow)"/>
   <circle cx="100" cy="100" r="94.5" fill="none" stroke="url(#rim)" stroke-width="3"/>
-  <path d="M38 52 A80 80 0 0 1 162 52" fill="none" stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="3" stroke-linecap="round"/>
+  <path d="M38 52 A80 80 0 0 1 162 52" fill="none" stroke="#FFFFFF" stroke-opacity="0.06" stroke-width="3" stroke-linecap="round"/>
 
   <!-- visor slot -->
   <rect x="15" y="73" width="170" height="54" rx="27" fill="url(#bezel)"/>
