@@ -49,9 +49,9 @@
   .hero{grid-template-columns:1fr;padding:6rem 0 7rem;min-height:520px;align-items:center}
 
   /* who it's for */
-  .people{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:1.25rem}
+  .people{display:grid;grid-template-columns:1.4fr 1fr;gap:1.25rem}
   .people figure{margin:0}
-  .people img{width:100%;height:300px;object-fit:cover;border-radius:14px;display:block;background:var(--line)}
+  .people img{width:100%;height:340px;object-fit:cover;border-radius:14px;display:block;background:var(--line)}
   .people figcaption{margin-top:.8rem}
   .people strong{display:block;font-weight:600}
   .people span{color:var(--ink-soft);font-size:.95rem}
@@ -105,11 +105,9 @@
   @media (max-width:860px){
     .night::before,.night::after{width:100%}
     .night::after{background:linear-gradient(180deg,rgba(27,35,80,.88),rgba(27,35,80,.96))}
-    .people{grid-template-columns:1fr 1fr}
-    .people figure:first-child{grid-column:1/-1}
+    .people{grid-template-columns:1fr}
   }
   @media (max-width:520px){
-    .people{grid-template-columns:1fr}
     .steps,.row{grid-template-columns:1fr}
   }
 </style>
@@ -153,16 +151,12 @@
       <p class="intro">Any Bay Area student whose project needs more computing than a school laptop can give.</p>
       <div class="people">
         <figure>
-          <img src="https://images.unsplash.com/photo-1758270705290-62b6294dd044?w=1000&q=75&auto=format&fit=crop" alt="A group of students gathered around a laptop in a lecture hall" loading="lazy">
-          <figcaption><strong>Research teams</strong><span>Data analysis and models for science fair, club, or lab projects.</span></figcaption>
+          <img src="https://images.unsplash.com/photo-1542903660-eedba2cda473?w=1200&q=75&auto=format&fit=crop" alt="Close-up of code on a screen, blurred in blue and yellow light" loading="lazy">
+          <figcaption><strong>Code that needs hours, not minutes</strong><span>Model training, backtests, data analysis, simulations.</span></figcaption>
         </figure>
         <figure>
-          <img src="https://images.unsplash.com/photo-1513258496099-48168024aec0?w=800&q=75&auto=format&fit=crop" alt="A student in headphones watching code run on a laptop" loading="lazy">
-          <figcaption><strong>Machine learning</strong><span>Training runs that would tie up a laptop for days.</span></figcaption>
-        </figure>
-        <figure>
-          <img src="https://images.unsplash.com/photo-1581093202218-980a6769202b?w=800&q=75&auto=format&fit=crop" alt="A student working on a 3D model on a desktop monitor" loading="lazy">
-          <figcaption><strong>Simulations and 3D</strong><span>Rendering, physics simulations, and long backtests.</span></figcaption>
+          <img src="https://images.unsplash.com/photo-1513258496099-48168024aec0?w=900&q=75&auto=format&fit=crop" alt="A student in headphones watching code run on a MacBook" loading="lazy">
+          <figcaption><strong>Students without the hardware</strong><span>A school laptop shouldn't decide how big your project can be.</span></figcaption>
         </figure>
       </div>
       <p class="photo-credit">Photos from Unsplash.</p>
