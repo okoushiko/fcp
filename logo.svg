@@ -1,84 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="FCP logo">
   <defs>
-    <!-- body: black center, blue glow from bottom right, a touch of yellow top right -->
-    <radialGradient id="blueGlow" cx="88%" cy="92%" r="95%">
+    <!-- black center, blue glow from the bottom right, a touch of yellow top right -->
+    <radialGradient id="blueGlow" cx="90%" cy="95%" r="100%">
       <stop offset="0" stop-color="#2A5DA8"/>
       <stop offset="0.35" stop-color="#173A73"/>
-      <stop offset="0.7" stop-color="#0A1834" stop-opacity="0.6"/>
+      <stop offset="0.7" stop-color="#0A1834" stop-opacity="0.65"/>
       <stop offset="1" stop-color="#05070D" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="yellowGlow" cx="86%" cy="6%" r="42%">
-      <stop offset="0" stop-color="#FFD24A" stop-opacity="0.75"/>
-      <stop offset="0.45" stop-color="#C9932A" stop-opacity="0.25"/>
+    <radialGradient id="yellowGlow" cx="88%" cy="6%" r="45%">
+      <stop offset="0" stop-color="#FFD24A" stop-opacity="0.8"/>
+      <stop offset="0.45" stop-color="#C9932A" stop-opacity="0.28"/>
       <stop offset="1" stop-color="#05070D" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="rim" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#5E6A86"/>
-      <stop offset="0.5" stop-color="#1A2236"/>
-      <stop offset="1" stop-color="#3D5C93"/>
-    </linearGradient>
-    <!-- black glossy visor -->
-    <linearGradient id="visor" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#020306"/>
-      <stop offset="1" stop-color="#0B0E17"/>
-    </linearGradient>
-    <linearGradient id="bezel" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#05070C"/>
-      <stop offset="1" stop-color="#5C6578"/>
-    </linearGradient>
-    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#1E3A66"/>
-      <stop offset="0.35" stop-color="#0D1424"/>
-      <stop offset="1" stop-color="#121826"/>
-    </linearGradient>
-    <!-- light grey metal for the end pieces -->
-    <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#E4E7ED"/>
-      <stop offset="0.5" stop-color="#B4BAC6"/>
-      <stop offset="1" stop-color="#7F8695"/>
-    </linearGradient>
-    <radialGradient id="eye" cx="45%" cy="40%" r="55%">
-      <stop offset="0" stop-color="#FFFFFF"/>
-      <stop offset="0.6" stop-color="#E8F7FF"/>
-      <stop offset="1" stop-color="#9FDcF5"/>
-    </radialGradient>
-    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
-      <feGaussianBlur stdDeviation="4"/>
-    </filter>
-    <clipPath id="glassClip"><rect x="23" y="80" width="154" height="40" rx="20"/></clipPath>
   </defs>
-
-  <!-- body -->
-  <circle cx="100" cy="100" r="96" fill="#05070D"/>
-  <circle cx="100" cy="100" r="96" fill="url(#blueGlow)"/>
-  <circle cx="100" cy="100" r="96" fill="url(#yellowGlow)"/>
-  <circle cx="100" cy="100" r="94.5" fill="none" stroke="url(#rim)" stroke-width="3"/>
-  <path d="M38 52 A80 80 0 0 1 162 52" fill="none" stroke="#FFFFFF" stroke-opacity="0.06" stroke-width="3" stroke-linecap="round"/>
-
-  <!-- visor slot -->
-  <rect x="15" y="73" width="170" height="54" rx="27" fill="url(#bezel)"/>
-  <rect x="17" y="75" width="166" height="50" rx="25" fill="url(#visor)"/>
-  <rect x="23" y="80" width="154" height="40" rx="20" fill="url(#glass)"/>
-
-  <g clip-path="url(#glassClip)">
-    <!-- end pieces: half-ovals, flat side against the wall -->
-    <path d="M42 80 A14 20 0 0 1 42 120 Z" fill="url(#metal)"/>
-    <line x1="42" y1="80" x2="42" y2="120" stroke="#F5F6F8" stroke-width="1.2"/>
-    <path d="M158 80 A14 20 0 0 0 158 120 Z" fill="url(#metal)"/>
-    <line x1="158" y1="80" x2="158" y2="120" stroke="#F5F6F8" stroke-width="1.2"/>
-    <!-- glass sheen -->
-    <path d="M23 80 H120 L98 92 H23 Z" fill="#FFFFFF" opacity="0.06"/>
-  </g>
-
-  <!-- eyes -->
-  <circle cx="81" cy="101" r="10" fill="#BDEBFF" opacity="0.55" filter="url(#glow)"/>
-  <circle cx="119" cy="101" r="10" fill="#BDEBFF" opacity="0.55" filter="url(#glow)"/>
-  <circle cx="81" cy="101" r="7" fill="url(#eye)"/>
-  <circle cx="119" cy="101" r="7" fill="url(#eye)"/>
-  <circle cx="79" cy="98.5" r="1.8" fill="#FFFFFF"/>
-  <circle cx="117" cy="98.5" r="1.8" fill="#FFFFFF"/>
-
-  <!-- two little dots at the top, between the eyes -->
-  <circle cx="95.5" cy="86" r="2.2" fill="#C9CED8"/>
-  <circle cx="104.5" cy="86" r="2.2" fill="#C9CED8"/>
+  <circle cx="100" cy="100" r="100" fill="#05070D"/>
+  <circle cx="100" cy="100" r="100" fill="url(#blueGlow)"/>
+  <circle cx="100" cy="100" r="100" fill="url(#yellowGlow)"/>
 </svg>
