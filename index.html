@@ -8,117 +8,123 @@
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0A0F1C;         /* blue-black */
-    --bg-2:#0F1628;       /* raised panels */
-    --bg-3:#151E36;       /* inputs, hover */
-    --line:#24304C;
-    --text:#F2F4F8;
-    --soft:#B4BDD1;       /* secondary text, kept bright so it reads crisp */
-    --yellow:#FFD24A;
-    --err:#FF8A99;
+    --night:#1B2350;      /* overnight sky */
+    --night-2:#252F66;
+    --dusk:#9AA3D9;       /* muted lavender text on night */
+    --paper:#EEEDF7;      /* cool lavender paper */
+    --ink:#161A33;
+    --ink-soft:#4A4F6E;
+    --signal:#FFD24A;     /* status light */
+    --ok:#7BE0A6;
+    --err:#C2364B;
+    --line:#CFCDE3;
   }
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
-  body{margin:0;background:var(--bg);color:var(--text);font:400 1.0625rem/1.6 "IBM Plex Sans",system-ui,sans-serif;
-    -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+  body{margin:0;background:var(--paper);color:var(--ink);font:400 1.0625rem/1.6 "Instrument Sans",system-ui,sans-serif}
   a{color:inherit}
-  :focus-visible{outline:2px solid var(--yellow);outline-offset:3px}
-  h1,h2,.logo,.done h3,.steps li::before{font-family:"Barlow Semi Condensed",sans-serif}
+  :focus-visible{outline:3px solid var(--signal);outline-offset:3px;border-radius:4px}
 
-  /* ---------- hero ---------- */
-  .night{background:var(--bg);position:relative;overflow:hidden;min-height:100vh;min-height:100svh;display:flex;flex-direction:column}
+  /* ---------- night hero ---------- */
+  .night{background:var(--night);color:#fff;position:relative;overflow:hidden;min-height:100vh;min-height:100svh;display:flex;flex-direction:column}
   .wrap{max-width:68rem;margin:0 auto;padding:0 1.25rem}
   .top{display:flex;justify-content:space-between;align-items:center;padding:1.5rem 0}
-  .logo{font-weight:700;font-size:1.4rem;line-height:1;text-decoration:none;display:flex;align-items:center;gap:.6rem}
-  .logo span{color:var(--soft);font-weight:600}
-  .logo img{display:block;border-radius:50%;box-shadow:0 0 0 1px #2E3B5C}
-  .top a.join{font-weight:600;text-decoration:none;border-bottom:2px solid var(--yellow);padding-bottom:2px}
+  .logo{font:700 1.25rem/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.01em;text-decoration:none}
+  .logo span{color:var(--dusk);font-weight:500}
+  .logo{display:flex;align-items:center;gap:.6rem}
+  .logo img{display:block;border-radius:50%;box-shadow:0 0 0 1px #ffffff2e}
+  .top a.join{font-weight:600;text-decoration:none;border-bottom:2px solid var(--signal);padding-bottom:2px}
 
-  .hero{display:grid;grid-template-columns:1fr;padding:3rem 0 6rem}
-  h1{font-weight:700;font-size:clamp(2.9rem,6.6vw,5.2rem);line-height:.98;letter-spacing:-.01em;margin:0 0 1.5rem;max-width:13ch}
-  .lede{color:var(--soft);font-size:1.2rem;max-width:34rem;margin:0}
+  .hero{display:grid;grid-template-columns:1.25fr 1fr;gap:3rem;align-items:end;padding:4rem 0 5rem}
+  h1{font:700 clamp(2.6rem,6.2vw,4.75rem)/1.02 "Bricolage Grotesque",sans-serif;letter-spacing:-.025em;margin:0 0 1.5rem;max-width:14ch}
+  .lede{color:var(--dusk);font-size:1.2rem;max-width:34rem;margin:0}
 
-  /* data center photo on the right, fading into blue-black */
+  /* data center photo on the right, fading into the night blue */
   .night::before{content:"";position:absolute;inset:0 0 0 auto;width:58%;
-    background:linear-gradient(90deg,var(--bg) 0%,rgba(10,15,28,.8) 30%,rgba(16,28,64,.4) 72%,rgba(255,210,74,.10) 100%),url("https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1800&q=75&auto=format&fit=crop") center/cover no-repeat;transform-origin:right center}
+    background:linear-gradient(90deg,var(--night) 0%,rgba(27,35,80,.75) 30%,rgba(60,52,140,.35) 70%,rgba(255,210,74,.12) 100%),url("https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1800&q=75&auto=format&fit=crop") center/cover no-repeat;transform-origin:right center}
   .night .wrap{position:relative;z-index:1;width:100%}
   .night .hero-wrap{flex:1;display:flex;align-items:center}
   .scroll-hint{position:absolute;right:max(1.25rem,calc((100vw - 68rem)/2 + 1.25rem));bottom:2rem;z-index:1;
-    color:var(--soft);font-size:.9rem;text-decoration:none;display:flex;align-items:center;gap:.5rem}
-  .scroll-hint:hover{color:var(--text)}
+    color:var(--dusk);font-size:.9rem;text-decoration:none;display:flex;align-items:center;gap:.5rem}
+  .scroll-hint:hover{color:#fff}
   .scroll-hint svg{width:14px;height:14px}
+  .hero{grid-template-columns:1fr;padding:3rem 0 6rem}
+
+  /* how-it-works: steps beside the code photo */
+  .how{display:grid;grid-template-columns:1.15fr 1fr;gap:4rem;align-items:stretch}
+  .how .steps{grid-template-columns:1fr 1fr;gap:2.25rem 2rem}
+  .code-photo{margin:0;border-radius:18px;overflow:hidden;position:relative;min-height:420px;background:var(--night)}
+  .code-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .code-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(200deg,transparent 40%,rgba(27,35,80,.55))}
+
+  /* signup: student photo under the pitch */
+  .student{margin:2.5rem 0 0}
+  .student img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:18px;display:block;background:var(--line)}
+  .credit{font-size:.8rem;color:var(--ink-soft);margin:.6rem 0 0}
 
   /* ---------- how it works ---------- */
-  section{padding:5rem 0;border-top:1px solid var(--line)}
-  h2{font-weight:700;font-size:clamp(2rem,3.6vw,2.75rem);line-height:1.05;letter-spacing:-.005em;margin:0 0 1rem}
-  .intro{color:var(--soft);max-width:36rem;margin:0 0 3rem}
-  .how{display:grid;grid-template-columns:1.15fr 1fr;gap:4rem;align-items:stretch}
-  .steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:2.25rem 2rem;counter-reset:s}
-  .steps li{counter-increment:s;border-top:2px solid var(--line);padding-top:1rem}
-  .steps li::before{content:counter(s);font-weight:700;font-size:1.3rem;color:var(--yellow);display:block;margin-bottom:.4rem}
-  .steps h3{font-weight:600;font-size:1.1rem;line-height:1.3;margin:0 0 .35rem}
-  .steps p{margin:0;color:var(--soft);font-size:.98rem}
-  .code-photo{margin:0;overflow:hidden;position:relative;min-height:420px;background:var(--bg-2)}
-  .code-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-  .code-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(200deg,transparent 40%,rgba(10,15,28,.6))}
+  section{padding:5rem 0}
+  h2{font:700 clamp(1.8rem,3.4vw,2.5rem)/1.1 "Bricolage Grotesque",sans-serif;letter-spacing:-.02em;margin:0 0 1rem}
+  .intro{color:var(--ink-soft);max-width:36rem;margin:0 0 3rem}
+  .steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;counter-reset:s}
+  .steps li{counter-increment:s;border-top:2px solid var(--ink);padding-top:1rem}
+  .steps li::before{content:counter(s);font:700 1.1rem "Bricolage Grotesque",sans-serif;display:block;margin-bottom:.5rem}
+  .steps h3{font:600 1.1rem/1.3 "Instrument Sans",sans-serif;margin:0 0 .35rem}
+  .steps p{margin:0;color:var(--ink-soft);font-size:.98rem}
 
-  /* ---------- waitlist ---------- */
-  .signup{background:var(--bg-2)}
+  /* ---------- signup ---------- */
+  .signup{background:#fff;border-top:1px solid var(--line)}
   .signup-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:4rem}
-  .who p{color:var(--soft);margin:0 0 1rem;max-width:30rem}
-  .who ul{padding-left:1.1rem;color:var(--soft);margin:0}
+  .who p{color:var(--ink-soft);margin:0 0 1rem;max-width:30rem}
+  .who ul{padding-left:1.1rem;color:var(--ink-soft);margin:0}
   .who li{margin-bottom:.4rem}
-  .student{margin:2.5rem 0 0}
-  .student img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--bg-3)}
-  .credit{font-size:.8rem;color:var(--soft);margin:.6rem 0 0}
 
   form{display:grid;gap:1.25rem}
   .row{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
   label{display:block;font-weight:600;font-size:.95rem;margin-bottom:.4rem}
-  label .opt{font-weight:400;color:var(--soft)}
-  input,select,textarea{width:100%;font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:0;padding:.75rem .9rem}
-  input::placeholder,textarea::placeholder{color:#7C88A6}
-  select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--soft) 50%),linear-gradient(135deg,var(--soft) 50%,transparent 50%);
-    background-position:calc(100% - 18px) 52%,calc(100% - 13px) 52%;background-size:5px 5px;background-repeat:no-repeat;padding-right:2.4rem}
-  select option{background:var(--bg-2);color:var(--text)}
-  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--yellow)}
+  label .opt{font-weight:400;color:var(--ink-soft)}
+  input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--paper);border:1.5px solid transparent;border-radius:10px;padding:.75rem .9rem}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--night);background:#fff}
   textarea{min-height:8rem;resize:vertical}
-  .count{font-size:.82rem;color:var(--soft);text-align:right;margin-top:.3rem}
+  .count{font-size:.82rem;color:var(--ink-soft);text-align:right;margin-top:.3rem}
   .combo{position:relative}
-  .combo ul{position:absolute;z-index:5;left:0;right:0;top:100%;margin:-1px 0 0;padding:0;list-style:none;
-    background:var(--bg);border:1px solid var(--yellow);max-height:20rem;overflow:auto}
-  .combo li{padding:.6rem .9rem;cursor:pointer;line-height:1.3;border-bottom:1px solid var(--line)}
-  .combo li:last-child{border-bottom:0}
-  .combo li[aria-selected="true"]{background:var(--bg-3)}
+  .combo ul{position:absolute;z-index:5;left:0;right:0;top:100%;margin:.35rem 0 0;padding:.35rem;list-style:none;
+    background:#fff;border:1.5px solid var(--line);border-radius:12px;box-shadow:0 18px 40px -18px #161a3340;max-height:20rem;overflow:auto}
+  .combo li{padding:.55rem .65rem;border-radius:8px;cursor:pointer;line-height:1.3}
+  .combo li[aria-selected="true"]{background:var(--paper)}
   .combo li b{display:block;font-weight:600}
-  .combo li small{color:var(--soft);font-size:.85rem}
-  .combo li .tag{display:inline-block;margin-left:.45rem;font-size:.72rem;font-weight:600;color:var(--yellow);border:1px solid #FFD24A66;padding:0 .3rem;vertical-align:1px}
-  .combo li.note{cursor:default;color:var(--soft);font-size:.9rem}
+  .combo li small{color:var(--ink-soft);font-size:.85rem}
+  .combo li .tag{display:inline-block;margin-left:.4rem;font-size:.75rem;color:var(--night);background:#E3E1F3;border-radius:4px;padding:0 .35rem}
+  .combo li.note{cursor:default;color:var(--ink-soft);font-size:.9rem}
   .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-  button{font:600 1.05rem "IBM Plex Sans",sans-serif;background:var(--yellow);color:#0A0F1C;border:0;border-radius:0;padding:.95rem 1.8rem;cursor:pointer;justify-self:start}
-  button:hover{background:#FFDE73}
-  button[disabled]{opacity:.6;cursor:progress}
-  .msg{padding:.9rem 1rem;font-weight:500;display:none;border-left:3px solid var(--err)}
-  .msg.err{display:block;background:#2A1520;color:var(--err)}
+  button{font:600 1.05rem "Instrument Sans",sans-serif;background:var(--night);color:#fff;border:0;border-radius:999px;padding:.95rem 1.8rem;cursor:pointer;justify-self:start}
+  button:hover{background:var(--night-2)}
+  button[disabled]{opacity:.55;cursor:progress}
+  .msg{border-radius:10px;padding:.9rem 1rem;font-weight:500;display:none}
+  .msg.err{display:block;background:#FBE9EC;color:var(--err)}
   .done{display:none}
-  .done h3{font-weight:700;font-size:2rem;line-height:1.1;margin:0 0 .5rem}
-  .done p{color:var(--soft);margin:0}
-  .fine{font-size:.85rem;color:var(--soft);margin:0}
+  .done h3{font:700 1.8rem/1.15 "Bricolage Grotesque",sans-serif;margin:0 0 .5rem}
+  .done p{color:var(--ink-soft);margin:0}
+  .fine{font-size:.85rem;color:var(--ink-soft);margin:0}
 
-  footer{background:#060A14;color:var(--soft);padding:2.5rem 0;font-size:.9rem;border-top:1px solid var(--line)}
+  footer{background:var(--night);color:var(--dusk);padding:2.5rem 0;font-size:.9rem}
   footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
-  footer .notice{display:block;padding-bottom:2rem;margin-bottom:2rem;border-bottom:1px solid var(--line)}
+  footer .notice{display:block;padding-bottom:2rem;margin-bottom:2rem;border-bottom:1px solid #ffffff1f}
   footer .notice p{margin:0;max-width:44rem;line-height:1.65;font-size:.95rem}
-  footer .notice strong{color:var(--yellow);font-weight:600}
+  footer .notice strong{color:#fff;font-weight:600}
 
   @media (max-width:860px){
-    .signup-grid,.how{grid-template-columns:1fr;gap:2.5rem}
+    .hero,.signup-grid{grid-template-columns:1fr;gap:2.5rem}
     .hero{padding:2rem 0 5rem}
+    .steps{grid-template-columns:1fr 1fr}
     section{padding:3.5rem 0}
-    .night::before{width:100%;background:linear-gradient(180deg,rgba(10,15,28,.86),rgba(10,15,28,.95)),url("https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1800&q=75&auto=format&fit=crop") center/cover no-repeat}
+  }
+  @media (max-width:860px){
+    .night::before{width:100%;background:linear-gradient(180deg,rgba(27,35,80,.88),rgba(27,35,80,.96)),url("https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1800&q=75&auto=format&fit=crop") center/cover no-repeat}
+    .how{grid-template-columns:1fr;gap:2.5rem}
     .code-photo{min-height:260px}
     .student{margin-top:1.75rem}
     .student img{aspect-ratio:16/9}
@@ -145,7 +151,7 @@
 <header class="night">
   <div class="wrap">
     <nav class="top">
-      <a class="logo" href="#"><img src="logo.svg" alt="" width="30" height="30">FCP <span>free compute project</span></a>
+      <a class="logo" href="#"><img src="logo.svg" alt="" width="34" height="34">FCP <span>free compute project</span></a>
       <a class="join" href="#signup">Join the waitlist</a>
     </nav>
 
@@ -211,7 +217,7 @@
           </div>
           <div class="row">
             <div class="combo">
-              <label for="school">High school</label>
+              <label for="school">School</label>
               <input id="school" name="school" maxlength="100" required autocomplete="off"
                 role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="school-list"
                 placeholder="Start typing your school's name">
@@ -287,7 +293,7 @@
   let captchaToken = "";
   if (READY) {
     window.onTurnstileLoad = () => turnstile.render("#captcha", {
-      sitekey: TURNSTILE_SITE_KEY, theme: "dark",
+      sitekey: TURNSTILE_SITE_KEY, theme: "light",
       callback: t => { captchaToken = t; },
       "expired-callback": () => { captchaToken = ""; }
     });
