@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FCP · Free compute for Bay Area students</title>
+<meta name="description" content="Free cloud computing for Bay Area students who need code to run for hours, days, or weeks. Sign up to show interest.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<style>
+  :root{
+    --night:#1B2350;      /* overnight sky */
+    --night-2:#252F66;
+    --dusk:#9AA3D9;       /* muted lavender text on night */
+    --paper:#EEEDF7;      /* cool lavender paper */
+    --ink:#161A33;
+    --ink-soft:#4A4F6E;
+    --signal:#FFD24A;     /* status light */
+    --ok:#7BE0A6;
+    --err:#C2364B;
+    --line:#CFCDE3;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font:400 1.0625rem/1.6 "Instrument Sans",system-ui,sans-serif}
+  a{color:inherit}
+  :focus-visible{outline:3px solid var(--signal);outline-offset:3px;border-radius:4px}
+
+  /* ---------- night hero ---------- */
+  .night{background:var(--night);color:#fff;position:relative;overflow:hidden}
+  .wrap{max-width:68rem;margin:0 auto;padding:0 1.25rem}
+  .top{display:flex;justify-content:space-between;align-items:center;padding:1.5rem 0}
+  .logo{font:700 1.25rem/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.01em;text-decoration:none}
+  .logo span{color:var(--dusk);font-weight:500}
+  .top a.join{font-weight:600;text-decoration:none;border-bottom:2px solid var(--signal);padding-bottom:2px}
+
+  .hero{display:grid;grid-template-columns:1.25fr 1fr;gap:3rem;align-items:end;padding:4rem 0 5rem}
+  h1{font:700 clamp(2.6rem,6.2vw,4.75rem)/1.02 "Bricolage Grotesque",sans-serif;letter-spacing:-.025em;margin:0 0 1.5rem;max-width:14ch}
+  .lede{color:var(--dusk);font-size:1.2rem;max-width:34rem;margin:0}
+
+  /* the one memorable thing: a job that's been running all night */
+  .job{background:var(--night-2);border-radius:18px;padding:1.5rem 1.5rem 1.25rem;box-shadow:0 30px 60px -30px #0008}
+  .job-head{display:flex;align-items:center;gap:.6rem;color:var(--dusk);font-size:.95rem}
+  .led{width:10px;height:10px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 #7BE0A688;animation:pulse 2.4s ease-out infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 #7BE0A688}70%{box-shadow:0 0 0 10px #7BE0A600}100%{box-shadow:0 0 0 0 #7BE0A600}}
+  .clock{font:700 clamp(2.4rem,5vw,3.4rem)/1 "Bricolage Grotesque",sans-serif;font-variant-numeric:tabular-nums;letter-spacing:-.02em;margin:1rem 0 .4rem}
+  .clock small{font-size:.45em;color:var(--dusk);font-weight:500;margin:0 .25em 0 .05em}
+  .job p{margin:0;color:var(--dusk);font-size:.95rem}
+  .bar{height:6px;border-radius:3px;background:#ffffff1a;margin-top:1.25rem;overflow:hidden}
+  .bar i{display:block;height:100%;width:62%;background:var(--signal);border-radius:3px}
+  .job-foot{display:flex;justify-content:space-between;color:var(--dusk);font-size:.85rem;margin-top:.5rem}
+
+  /* ---------- how it works ---------- */
+  section{padding:5rem 0}
+  h2{font:700 clamp(1.8rem,3.4vw,2.5rem)/1.1 "Bricolage Grotesque",sans-serif;letter-spacing:-.02em;margin:0 0 1rem}
+  .intro{color:var(--ink-soft);max-width:36rem;margin:0 0 3rem}
+  .steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;counter-reset:s}
+  .steps li{counter-increment:s;border-top:2px solid var(--ink);padding-top:1rem}
+  .steps li::before{content:counter(s);font:700 1.1rem "Bricolage Grotesque",sans-serif;display:block;margin-bottom:.5rem}
+  .steps h3{font:600 1.1rem/1.3 "Instrument Sans",sans-serif;margin:0 0 .35rem}
+  .steps p{margin:0;color:var(--ink-soft);font-size:.98rem}
+
+  /* ---------- signup ---------- */
+  .signup{background:#fff;border-top:1px solid var(--line)}
+  .signup-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:4rem}
+  .who p{color:var(--ink-soft);margin:0 0 1rem;max-width:30rem}
+  .who ul{padding-left:1.1rem;color:var(--ink-soft);margin:0}
+  .who li{margin-bottom:.4rem}
+
+  form{display:grid;gap:1.25rem}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+  label{display:block;font-weight:600;font-size:.95rem;margin-bottom:.4rem}
+  label .opt{font-weight:400;color:var(--ink-soft)}
+  input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--paper);border:1.5px solid transparent;border-radius:10px;padding:.75rem .9rem;transition:border-color .15s}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--night);background:#fff}
+  textarea{min-height:8rem;resize:vertical}
+  .count{font-size:.82rem;color:var(--ink-soft);text-align:right;margin-top:.3rem}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+  button{font:600 1.05rem "Instrument Sans",sans-serif;background:var(--night);color:#fff;border:0;border-radius:999px;padding:.95rem 1.8rem;cursor:pointer;justify-self:start}
+  button:hover{background:var(--night-2)}
+  button[disabled]{opacity:.55;cursor:progress}
+  .msg{border-radius:10px;padding:.9rem 1rem;font-weight:500;display:none}
+  .msg.err{display:block;background:#FBE9EC;color:var(--err)}
+  .done{display:none}
+  .done h3{font:700 1.8rem/1.15 "Bricolage Grotesque",sans-serif;margin:0 0 .5rem}
+  .done p{color:var(--ink-soft);margin:0}
+  .fine{font-size:.85rem;color:var(--ink-soft);margin:0}
+
+  footer{background:var(--night);color:var(--dusk);padding:2.5rem 0;font-size:.9rem}
+  footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+
+  @media (max-width:860px){
+    .hero,.signup-grid{grid-template-columns:1fr;gap:2.5rem}
+    .hero{padding:2.5rem 0 3.5rem}
+    .steps{grid-template-columns:1fr 1fr}
+    section{padding:3.5rem 0}
+  }
+  @media (max-width:520px){
+    .steps,.row{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion:reduce){.led{animation:none}}
+</style>
+</head>
+<body>
+
+<header class="night">
+  <div class="wrap">
+    <nav class="top">
+      <a class="logo" href="#">FCP <span>free compute project</span></a>
+      <a class="join" href="#signup">Sign up</a>
+    </nav>
+
+    <div class="hero">
+      <div>
+        <h1>Your code can run all week. Your laptop doesn't have to.</h1>
+        <p class="lede">FCP gives Bay Area students free cloud computing for jobs that take hours, days, or weeks: model training, backtests, simulations. You send the code, it runs on sponsored hardware, you get the results.</p>
+      </div>
+
+      <div class="job" aria-label="Example of a long-running student job">
+        <div class="job-head"><span class="led" aria-hidden="true"></span>model_training.py is still running</div>
+        <div class="clock" id="clock" aria-live="off">41<small>h</small>12<small>m</small>08<small>s</small></div>
+        <p>Started Tuesday after school. Your laptop is closed.</p>
+        <div class="bar" aria-hidden="true"><i></i></div>
+        <div class="job-foot"><span>epoch 62 of 100</span><span>GPU</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="wrap">
+      <h2>How it will work</h2>
+      <p class="intro">We're checking how many students need this before we launch. Here's the plan once we do.</p>
+      <ol class="steps">
+        <li><h3>Send a request</h3><p>Tell us what your job does, roughly how long it runs, and whether it needs a GPU.</p></li>
+        <li><h3>We review it</h3><p>Every job is checked first so the shared credits go to real student projects.</p></li>
+        <li><h3>It runs on its own</h3><p>Your job gets an isolated space on sponsored cloud hardware with a time limit.</p></li>
+        <li><h3>Get your results</h3><p>When it finishes, you get a link to download the output.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="signup" id="signup">
+    <div class="wrap signup-grid">
+      <div class="who">
+        <h2>Would you use it?</h2>
+        <p>Sign up if you'd run something on FCP. The more students who say yes, the easier it is to get sponsors to fund the compute.</p>
+        <ul>
+          <li>Free for Bay Area high school and college students</li>
+          <li>Signing up doesn't commit you to anything</li>
+          <li>We'll only email you about FCP</li>
+        </ul>
+      </div>
+
+      <div>
+        <form id="form" novalidate>
+          <div class="row">
+            <div><label for="name">Name</label><input id="name" name="name" autocomplete="name" maxlength="80" required></div>
+            <div><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" maxlength="120" required></div>
+          </div>
+          <div class="row">
+            <div><label for="school">School</label><input id="school" name="school" maxlength="100" required></div>
+            <div>
+              <label for="compute">What would it need?</label>
+              <select id="compute" name="compute" required>
+                <option value="">Choose one</option>
+                <option>CPU only</option>
+                <option>GPU</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label for="duration">How long would it run?</label>
+            <select id="duration" name="duration" required>
+              <option value="">Choose one</option>
+              <option>A few hours</option>
+              <option>Overnight</option>
+              <option>A few days</option>
+              <option>A week or more</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+          <div>
+            <label for="use">How would you use it? <span class="opt">What would you run, and for what project?</span></label>
+            <textarea id="use" name="use" maxlength="1000" required></textarea>
+            <div class="count"><span id="count">0</span> / 1000</div>
+          </div>
+
+          <!-- honeypot: hidden from people, bots fill it in -->
+          <div class="hp" aria-hidden="true">
+            <label for="website">Website</label><input id="website" name="website" tabindex="-1" autocomplete="off">
+          </div>
+
+          <div class="cf-turnstile" data-sitekey="TURNSTILE_SITE_KEY" data-theme="light"></div>
+
+          <div class="msg" id="msg" role="alert"></div>
+          <button type="submit" id="submit">Sign up</button>
+          <p class="fine">Your name and email are only seen by the FCP organizers.</p>
+        </form>
+
+        <div class="done" id="done" tabindex="-1">
+          <h3>You're signed up.</h3>
+          <p>Thanks. We'll email you when FCP opens for requests.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>FCP, free compute for Bay Area students</span>
+    <span>Phase 1: measuring interest</span>
+  </div>
+</footer>
+
+<script>
+(() => {
+  // ---- config: paste your Apps Script web app URL here ----
+  const ENDPOINT = "APPS_SCRIPT_URL";
+
+  // ticking job clock
+  const clock = document.getElementById("clock");
+  let secs = 41 * 3600 + 12 * 60 + 8;
+  const pad = n => String(n).padStart(2, "0");
+  const draw = () => {
+    const h = Math.floor(secs / 3600), m = Math.floor(secs % 3600 / 60), s = secs % 60;
+    clock.innerHTML = `${h}<small>h</small>${pad(m)}<small>m</small>${pad(s)}<small>s</small>`;
+  };
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) setInterval(() => { secs++; draw(); }, 1000);
+
+  // form
+  const form = document.getElementById("form");
+  const msg = document.getElementById("msg");
+  const btn = document.getElementById("submit");
+  const use = document.getElementById("use");
+  const count = document.getElementById("count");
+  const loadedAt = Date.now();
+
+  use.addEventListener("input", () => { count.textContent = use.value.length; });
+
+  const ERRORS = {
+    invalid: "Check that every field is filled in and your email is correct.",
+    duplicate: "That email is already signed up.",
+    captcha: "The verification check didn't pass. Refresh the page and try again.",
+    busy: "We're getting a lot of signups right now. Try again in a few minutes.",
+    closed: "Signups are paused right now. Try again later.",
+    server: "Something went wrong on our end. Try again in a minute."
+  };
+  const showError = key => { msg.textContent = ERRORS[key] || ERRORS.server; msg.className = "msg err"; };
+
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    msg.className = "msg";
+
+    const f = Object.fromEntries(new FormData(form));
+    const email = (f.email || "").trim();
+    if (!f.name.trim() || !f.school.trim() || !f.compute || !f.duration || !f.use.trim() ||
+        !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return showError("invalid");
+
+    const token = f["cf-turnstile-response"];
+    if (!token) return showError("captcha");
+
+    btn.disabled = true; btn.textContent = "Signing up…";
+    try {
+      // text/plain keeps this a "simple" request so Apps Script accepts it without a CORS preflight
+      const res = await fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({
+          name: f.name, email, school: f.school, compute: f.compute,
+          duration: f.duration, use: f.use, website: f.website,
+          elapsed: Date.now() - loadedAt, token
+        })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        form.style.display = "none";
+        const done = document.getElementById("done");
+        done.style.display = "block"; done.focus();
+      } else {
+        showError(data.error);
+        if (window.turnstile) turnstile.reset();
+      }
+    } catch {
+      showError("server");
+      if (window.turnstile) turnstile.reset();
+    } finally {
+      btn.disabled = false; btn.textContent = "Sign up";
+    }
+  });
+})();
+</script>
+</body>
+</html>
