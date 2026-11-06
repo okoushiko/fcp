@@ -81,7 +81,7 @@
   .row{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
   label{display:block;font-weight:600;font-size:.95rem;margin-bottom:.4rem}
   label .opt{font-weight:400;color:var(--ink-soft)}
-  input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--paper);border:1.5px solid transparent;border-radius:10px;padding:.75rem .9rem;transition:border-color .15s}
+  input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--paper);border:1.5px solid transparent;border-radius:10px;padding:.75rem .9rem}
   input:focus,select:focus,textarea:focus{outline:none;border-color:var(--night);background:#fff}
   textarea{min-height:8rem;resize:vertical}
   .count{font-size:.82rem;color:var(--ink-soft);text-align:right;margin-top:.3rem}
@@ -119,6 +119,18 @@
   @media (max-width:520px){
     .steps,.row{grid-template-columns:1fr}
   }
+  /* motion: smooth scroll + one load-in moment on the hero, nothing else */
+  @media (prefers-reduced-motion:no-preference){
+    html{scroll-behavior:smooth}
+    .top{animation:fade .8s ease both}
+    .night::before{animation:settle 1.8s cubic-bezier(.2,.7,.2,1) both}
+    .night::after{animation:fade 1.2s ease both}
+    h1{animation:rise .9s cubic-bezier(.2,.7,.2,1) .15s both}
+    .lede{animation:rise .9s cubic-bezier(.2,.7,.2,1) .35s both}
+  }
+  @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  @keyframes settle{from{opacity:0;transform:scale(1.06)}to{opacity:1;transform:none}}
 </style>
 </head>
 <body>
