@@ -48,14 +48,17 @@
   .night .wrap{position:relative;z-index:1}
   .hero{grid-template-columns:1fr;padding:6rem 0 7rem;min-height:520px;align-items:center}
 
-  /* who it's for */
-  .people{display:grid;grid-template-columns:1.4fr 1fr;gap:1.25rem}
-  .people figure{margin:0}
-  .people img{width:100%;height:340px;object-fit:cover;border-radius:14px;display:block;background:var(--line)}
-  .people figcaption{margin-top:.8rem}
-  .people strong{display:block;font-weight:600}
-  .people span{color:var(--ink-soft);font-size:.95rem}
-  .photo-credit{font-size:.8rem;color:var(--ink-soft);margin:1.25rem 0 0}
+  /* how-it-works: steps beside the code photo */
+  .how{display:grid;grid-template-columns:1.15fr 1fr;gap:4rem;align-items:stretch}
+  .how .steps{grid-template-columns:1fr 1fr;gap:2.25rem 2rem}
+  .code-photo{margin:0;border-radius:18px;overflow:hidden;position:relative;min-height:420px;background:var(--night)}
+  .code-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .code-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(200deg,transparent 40%,rgba(27,35,80,.55))}
+
+  /* signup: student photo under the pitch */
+  .student{margin:2.5rem 0 0}
+  .student img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:18px;display:block;background:var(--line)}
+  .credit{font-size:.8rem;color:var(--ink-soft);margin:.6rem 0 0}
 
   /* ---------- how it works ---------- */
   section{padding:5rem 0}
@@ -105,7 +108,10 @@
   @media (max-width:860px){
     .night::before,.night::after{width:100%}
     .night::after{background:linear-gradient(180deg,rgba(27,35,80,.88),rgba(27,35,80,.96))}
-    .people{grid-template-columns:1fr}
+    .how{grid-template-columns:1fr;gap:2.5rem}
+    .code-photo{min-height:260px}
+    .student{margin-top:1.75rem}
+    .student img{aspect-ratio:16/9}
   }
   @media (max-width:520px){
     .steps,.row{grid-template-columns:1fr}
@@ -134,6 +140,8 @@
 <main>
   <section>
     <div class="wrap">
+      <div class="how">
+      <div>
       <h2>How it will work</h2>
       <p class="intro">We're checking how many students need this before we launch. Here's the plan once we do.</p>
       <ol class="steps">
@@ -142,24 +150,11 @@
         <li><h3>It runs on its own</h3><p>Your job gets an isolated space on sponsored cloud hardware with a time limit.</p></li>
         <li><h3>Get your results</h3><p>When it finishes, you get a link to download the output.</p></li>
       </ol>
-    </div>
-  </section>
-
-  <section class="for" style="padding-top:0">
-    <div class="wrap">
-      <h2>Who it's for</h2>
-      <p class="intro">Any Bay Area student whose project needs more computing than a school laptop can give.</p>
-      <div class="people">
-        <figure>
-          <img src="https://images.unsplash.com/photo-1542903660-eedba2cda473?w=1200&q=75&auto=format&fit=crop" alt="Close-up of code on a screen, blurred in blue and yellow light" loading="lazy">
-          <figcaption><strong>Code that needs hours, not minutes</strong><span>Model training, backtests, data analysis, simulations.</span></figcaption>
-        </figure>
-        <figure>
-          <img src="https://images.unsplash.com/photo-1513258496099-48168024aec0?w=900&q=75&auto=format&fit=crop" alt="A student in headphones watching code run on a MacBook" loading="lazy">
-          <figcaption><strong>Students without the hardware</strong><span>A school laptop shouldn't decide how big your project can be.</span></figcaption>
-        </figure>
       </div>
-      <p class="photo-credit">Photos from Unsplash.</p>
+      <figure class="code-photo">
+        <img src="https://images.unsplash.com/photo-1542903660-eedba2cda473?w=1200&q=75&auto=format&fit=crop" alt="Close-up of code on a screen, blurred in blue and yellow light" loading="lazy">
+      </figure>
+      </div>
     </div>
   </section>
 
@@ -173,6 +168,10 @@
           <li>Signing up doesn't commit you to anything</li>
           <li>We'll only email you about FCP</li>
         </ul>
+        <figure class="student">
+          <img src="https://images.unsplash.com/photo-1513258496099-48168024aec0?w=1000&q=75&auto=format&fit=crop" alt="A student in headphones watching code run on a MacBook" loading="lazy">
+        </figure>
+        <p class="credit">Photos from Unsplash.</p>
       </div>
 
       <div>
