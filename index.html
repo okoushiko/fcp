@@ -8,7 +8,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <style>
   :root{
     --night:#1B2350;      /* overnight sky */
@@ -238,7 +237,7 @@
             <label for="website">Website</label><input id="website" name="website" tabindex="-1" autocomplete="off">
           </div>
 
-          <div class="cf-turnstile" data-sitekey="TURNSTILE_SITE_KEY" data-theme="light"></div>
+          <div id="captcha"></div>
 
           <div class="msg" id="msg" role="alert"></div>
           <button type="submit" id="submit">Sign up</button>
@@ -268,6 +267,22 @@
 (() => {
   // ---- config: paste your Apps Script web app URL here ----
   const ENDPOINT = "APPS_SCRIPT_URL";
+  // ---- config: paste your Cloudflare Turnstile SITE key here (the public one) ----
+  const TURNSTILE_SITE_KEY = "TURNSTILE_SITE_KEY";
+  const READY = !ENDPOINT.startsWith("APPS_") && !TURNSTILE_SITE_KEY.startsWith("TURNSTILE_");
+
+  // only load the verification widget once a real key is set
+  let captchaToken = "";
+  if (READY) {
+    window.onTurnstileLoad = () => turnstile.render("#captcha", {
+      sitekey: TURNSTILE_SITE_KEY, theme: "light",
+      callback: t => { captchaToken = t; },
+      "expired-callback": () => { captchaToken = ""; }
+    });
+    const ts = document.createElement("script");
+    ts.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad";
+    ts.async = true; document.head.appendChild(ts);
+  }
 
   // form
   const form = document.getElementById("form");
@@ -284,7 +299,7 @@
     duplicate: "That email is already signed up.",
     captcha: "The verification check didn't pass. Refresh the page and try again.",
     busy: "We're getting a lot of signups right now. Try again in a few minutes.",
-    closed: "Signups are paused right now. Try again later.",
+    closed: "Signups aren't open quite yet. Check back soon.",
     server: "Something went wrong on our end. Try again in a minute."
   };
   const showError = key => { msg.textContent = ERRORS[key] || ERRORS.server; msg.className = "msg err"; };
@@ -298,7 +313,8 @@
     if (!f.name.trim() || !f.school.trim() || !f.compute || !f.duration || !f.use.trim() ||
         !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return showError("invalid");
 
-    const token = f["cf-turnstile-response"];
+    if (!READY) return showError("closed");
+    const token = captchaToken;
     if (!token) return showError("captcha");
 
     btn.disabled = true; btn.textContent = "Signing up…";
@@ -320,11 +336,11 @@
         done.style.display = "block"; done.focus();
       } else {
         showError(data.error);
-        if (window.turnstile) turnstile.reset();
+        if (window.turnstile) { turnstile.reset(); captchaToken = ""; }
       }
     } catch {
       showError("server");
-      if (window.turnstile) turnstile.reset();
+      if (window.turnstile) { turnstile.reset(); captchaToken = ""; }
     } finally {
       btn.disabled = false; btn.textContent = "Sign up";
     }
