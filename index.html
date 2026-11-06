@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FCP · Free compute for US high schoolers</title>
 <meta name="description" content="Free cloud computing for US high school students who need code to run for hours, days, or weeks. Join the waitlist.">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -33,6 +34,8 @@
   .top{display:flex;justify-content:space-between;align-items:center;padding:1.5rem 0}
   .logo{font:700 1.25rem/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.01em;text-decoration:none}
   .logo span{color:var(--dusk);font-weight:500}
+  .logo{display:flex;align-items:center;gap:.6rem}
+  .logo img{display:block;border-radius:50%;box-shadow:0 0 0 1.5px #ffffff26}
   .top a.join{font-weight:600;text-decoration:none;border-bottom:2px solid var(--signal);padding-bottom:2px}
 
   .hero{display:grid;grid-template-columns:1.25fr 1fr;gap:3rem;align-items:end;padding:4rem 0 5rem}
@@ -148,7 +151,7 @@
 <header class="night">
   <div class="wrap">
     <nav class="top">
-      <a class="logo" href="#">FCP <span>free compute project</span></a>
+      <a class="logo" href="#"><img src="logo.svg" alt="" width="34" height="34">FCP <span>free compute project</span></a>
       <a class="join" href="#signup">Join the waitlist</a>
     </nav>
 
