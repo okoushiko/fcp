@@ -1,15 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="FCP logo">
   <defs>
-    <!-- black center, blue glow from the bottom right, a touch of yellow top right -->
+    <!-- black center, blue glow from the bottom right, yellow stretched from the top left -->
     <radialGradient id="blueGlow" cx="90%" cy="95%" r="100%">
       <stop offset="0" stop-color="#2A5DA8"/>
       <stop offset="0.35" stop-color="#173A73"/>
       <stop offset="0.7" stop-color="#0A1834" stop-opacity="0.65"/>
       <stop offset="1" stop-color="#05070D" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="yellowGlow" cx="88%" cy="6%" r="45%">
-      <stop offset="0" stop-color="#FFD24A" stop-opacity="0.8"/>
-      <stop offset="0.45" stop-color="#C9932A" stop-opacity="0.28"/>
+    <radialGradient id="yellowGlow" cx="8%" cy="6%" r="70%"
+        gradientTransform="translate(0.08 0.06) scale(1.5 0.95) rotate(18) translate(-0.08 -0.06)">
+      <stop offset="0" stop-color="#FFD24A" stop-opacity="0.85"/>
+      <stop offset="0.35" stop-color="#D9A233" stop-opacity="0.4"/>
+      <stop offset="0.7" stop-color="#5A4520" stop-opacity="0.12"/>
       <stop offset="1" stop-color="#05070D" stop-opacity="0"/>
     </radialGradient>
   </defs>
