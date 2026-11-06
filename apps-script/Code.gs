@@ -12,13 +12,13 @@
  *  7. Formula-injection guard: cells starting with = + - @ are stored as plain text.
  *  8. A kill switch (FORM_OPEN = false) to stop all writes instantly.
  *
- * Script Properties to set (Project Settings > Script properties):
- *   TURNSTILE_SECRET   your Turnstile secret key
- *   ALLOWED_HOSTNAME   e.g. okoushiko.github.io
- *   FORM_OPEN          true
+ * Script Properties (Project Settings > Script properties):
+ *   TURNSTILE_SECRET   your Turnstile secret key (required)
+ *   FORM_OPEN          set to false to stop all writes (optional kill switch)
  */
 
 const SHEET_NAME = 'Interest';
+const ALLOWED_HOSTNAME = 'okoushiko.github.io';
 const HEADERS = ['Timestamp', 'Name', 'Email', 'School', 'Compute', 'Duration', 'How they would use it'];
 
 const LIMITS = { name: 80, email: 120, school: 100, use: 1000 };
@@ -40,7 +40,7 @@ function doPost(e) {
   }
 
   const props = PropertiesService.getScriptProperties();
-  if (props.getProperty('FORM_OPEN') !== 'true') return reply_(false, 'closed');
+  if (props.getProperty('FORM_OPEN') === 'false') return reply_(false, 'closed');
 
   // Bots: pretend it worked, write nothing.
   if (body.website) return reply_(true);
@@ -97,8 +97,7 @@ function verifyTurnstile_(token, props) {
     });
     const data = JSON.parse(res.getContentText());
     if (!data.success) return false;
-    const host = props.getProperty('ALLOWED_HOSTNAME');
-    return !host || data.hostname === host;
+    return data.hostname === ALLOWED_HOSTNAME;
   } catch (err) {
     console.error(err);
     return false;
