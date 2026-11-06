@@ -40,17 +40,22 @@
   h1{font:700 clamp(2.6rem,6.2vw,4.75rem)/1.02 "Bricolage Grotesque",sans-serif;letter-spacing:-.025em;margin:0 0 1.5rem;max-width:14ch}
   .lede{color:var(--dusk);font-size:1.2rem;max-width:34rem;margin:0}
 
-  /* the one memorable thing: a job that's been running all night */
-  .job{background:var(--night-2);border-radius:18px;padding:1.5rem 1.5rem 1.25rem;box-shadow:0 30px 60px -30px #0008}
-  .job-head{display:flex;align-items:center;gap:.6rem;color:var(--dusk);font-size:.95rem}
-  .led{width:10px;height:10px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 #7BE0A688;animation:pulse 2.4s ease-out infinite}
-  @keyframes pulse{0%{box-shadow:0 0 0 0 #7BE0A688}70%{box-shadow:0 0 0 10px #7BE0A600}100%{box-shadow:0 0 0 0 #7BE0A600}}
-  .clock{font:700 clamp(2.4rem,5vw,3.4rem)/1 "Bricolage Grotesque",sans-serif;font-variant-numeric:tabular-nums;letter-spacing:-.02em;margin:1rem 0 .4rem}
-  .clock small{font-size:.45em;color:var(--dusk);font-weight:500;margin:0 .25em 0 .05em}
-  .job p{margin:0;color:var(--dusk);font-size:.95rem}
-  .bar{height:6px;border-radius:3px;background:#ffffff1a;margin-top:1.25rem;overflow:hidden}
-  .bar i{display:block;height:100%;width:62%;background:var(--signal);border-radius:3px}
-  .job-foot{display:flex;justify-content:space-between;color:var(--dusk);font-size:.85rem;margin-top:.5rem}
+  /* data center photo on the right, fading into the night blue */
+  .night::before{content:"";position:absolute;inset:0 0 0 auto;width:58%;
+    background:url("https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1600&q=75&auto=format&fit=crop") center/cover no-repeat}
+  .night::after{content:"";position:absolute;inset:0 0 0 auto;width:58%;
+    background:linear-gradient(90deg,var(--night) 0%,rgba(27,35,80,.75) 30%,rgba(60,52,140,.35) 70%,rgba(255,210,74,.12) 100%)}
+  .night .wrap{position:relative;z-index:1}
+  .hero{grid-template-columns:1fr;padding:6rem 0 7rem;min-height:520px;align-items:center}
+
+  /* who it's for */
+  .people{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:1.25rem}
+  .people figure{margin:0}
+  .people img{width:100%;height:300px;object-fit:cover;border-radius:14px;display:block;background:var(--line)}
+  .people figcaption{margin-top:.8rem}
+  .people strong{display:block;font-weight:600}
+  .people span{color:var(--ink-soft);font-size:.95rem}
+  .photo-credit{font-size:.8rem;color:var(--ink-soft);margin:1.25rem 0 0}
 
   /* ---------- how it works ---------- */
   section{padding:5rem 0}
@@ -97,10 +102,16 @@
     .steps{grid-template-columns:1fr 1fr}
     section{padding:3.5rem 0}
   }
+  @media (max-width:860px){
+    .night::before,.night::after{width:100%}
+    .night::after{background:linear-gradient(180deg,rgba(27,35,80,.88),rgba(27,35,80,.96))}
+    .people{grid-template-columns:1fr 1fr}
+    .people figure:first-child{grid-column:1/-1}
+  }
   @media (max-width:520px){
+    .people{grid-template-columns:1fr}
     .steps,.row{grid-template-columns:1fr}
   }
-  @media (prefers-reduced-motion:reduce){.led{animation:none}}
 </style>
 </head>
 <body>
@@ -118,13 +129,6 @@
         <p class="lede">FCP gives Bay Area students free cloud computing for jobs that take hours, days, or weeks: model training, backtests, simulations. You send the code, it runs on sponsored hardware, you get the results.</p>
       </div>
 
-      <div class="job" aria-label="Example of a long-running student job">
-        <div class="job-head"><span class="led" aria-hidden="true"></span>model_training.py is still running</div>
-        <div class="clock" id="clock" aria-live="off">41<small>h</small>12<small>m</small>08<small>s</small></div>
-        <p>Started Tuesday after school. Your laptop is closed.</p>
-        <div class="bar" aria-hidden="true"><i></i></div>
-        <div class="job-foot"><span>epoch 62 of 100</span><span>GPU</span></div>
-      </div>
     </div>
   </div>
 </header>
@@ -140,6 +144,28 @@
         <li><h3>It runs on its own</h3><p>Your job gets an isolated space on sponsored cloud hardware with a time limit.</p></li>
         <li><h3>Get your results</h3><p>When it finishes, you get a link to download the output.</p></li>
       </ol>
+    </div>
+  </section>
+
+  <section class="for" style="padding-top:0">
+    <div class="wrap">
+      <h2>Who it's for</h2>
+      <p class="intro">Any Bay Area student whose project needs more computing than a school laptop can give.</p>
+      <div class="people">
+        <figure>
+          <img src="https://images.unsplash.com/photo-1758270705290-62b6294dd044?w=1000&q=75&auto=format&fit=crop" alt="A group of students gathered around a laptop in a lecture hall" loading="lazy">
+          <figcaption><strong>Research teams</strong><span>Data analysis and models for science fair, club, or lab projects.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1513258496099-48168024aec0?w=800&q=75&auto=format&fit=crop" alt="A student in headphones watching code run on a laptop" loading="lazy">
+          <figcaption><strong>Machine learning</strong><span>Training runs that would tie up a laptop for days.</span></figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1581093202218-980a6769202b?w=800&q=75&auto=format&fit=crop" alt="A student working on a 3D model on a desktop monitor" loading="lazy">
+          <figcaption><strong>Simulations and 3D</strong><span>Rendering, physics simulations, and long backtests.</span></figcaption>
+        </figure>
+      </div>
+      <p class="photo-credit">Photos from Unsplash.</p>
     </div>
   </section>
 
@@ -222,16 +248,6 @@
 (() => {
   // ---- config: paste your Apps Script web app URL here ----
   const ENDPOINT = "APPS_SCRIPT_URL";
-
-  // ticking job clock
-  const clock = document.getElementById("clock");
-  let secs = 41 * 3600 + 12 * 60 + 8;
-  const pad = n => String(n).padStart(2, "0");
-  const draw = () => {
-    const h = Math.floor(secs / 3600), m = Math.floor(secs % 3600 / 60), s = secs % 60;
-    clock.innerHTML = `${h}<small>h</small>${pad(m)}<small>m</small>${pad(s)}<small>s</small>`;
-  };
-  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) setInterval(() => { secs++; draw(); }, 1000);
 
   // form
   const form = document.getElementById("form");
