@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FCP · Free compute for Bay Area students</title>
-<meta name="description" content="Free cloud computing for Bay Area students who need code to run for hours, days, or weeks. Sign up to show interest.">
+<meta name="description" content="Free cloud computing for Bay Area students who need code to run for hours, days, or weeks. Join the waitlist.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -140,7 +140,7 @@
   <div class="wrap">
     <nav class="top">
       <a class="logo" href="#">FCP <span>free compute project</span></a>
-      <a class="join" href="#signup">Sign up</a>
+      <a class="join" href="#signup">Join the waitlist</a>
     </nav>
 
   </div>
@@ -185,10 +185,10 @@
     <div class="wrap signup-grid">
       <div class="who">
         <h2>Would you use it?</h2>
-        <p>Sign up if you'd run something on FCP. The more students who say yes, the easier it is to get sponsors to fund the compute.</p>
+        <p>Join the waitlist if you'd run something on FCP. The more students who join, the easier it is to get sponsors to fund the compute.</p>
         <ul>
           <li>Free for Bay Area high school and college students</li>
-          <li>Signing up doesn't commit you to anything</li>
+          <li>Joining doesn't commit you to anything</li>
           <li>We'll only email you about FCP</li>
         </ul>
         <figure class="student">
@@ -240,12 +240,12 @@
           <div id="captcha"></div>
 
           <div class="msg" id="msg" role="alert"></div>
-          <button type="submit" id="submit">Sign up</button>
+          <button type="submit" id="submit">Join the waitlist</button>
           <p class="fine">Your name and email are only seen by the FCP organizers.</p>
         </form>
 
         <div class="done" id="done" tabindex="-1">
-          <h3>You're signed up.</h3>
+          <h3>You're on the waitlist.</h3>
           <p>Thanks. We'll email you when FCP opens for requests.</p>
         </div>
       </div>
@@ -255,7 +255,7 @@
 
 <footer>
   <div class="wrap notice">
-    <p><strong>FCP isn't running yet.</strong> It's a student-led idea we're working to launch, and no computing is available right now. We're gathering interest first: every signup shows sponsors that Bay Area students need this, which makes it much more likely we can get the cloud credits to make it real. Signing up doesn't guarantee access, and we'll email you as soon as there's news.</p>
+    <p><strong>FCP isn't running yet.</strong> It's a student-led idea we're working to launch, and no computing is available right now. We're gathering interest first: every person on the waitlist shows sponsors that Bay Area students need this, which makes it much more likely we can get the cloud credits to make it real. Joining the waitlist doesn't guarantee access, and we'll email you as soon as there's news.</p>
   </div>
   <div class="wrap">
     <span>FCP, free compute for Bay Area students</span>
@@ -296,10 +296,10 @@
 
   const ERRORS = {
     invalid: "Check that every field is filled in and your email is correct.",
-    duplicate: "That email is already signed up.",
+    duplicate: "That email is already on the waitlist.",
     captcha: "The verification check didn't pass. Refresh the page and try again.",
-    busy: "We're getting a lot of signups right now. Try again in a few minutes.",
-    closed: "Signups aren't open quite yet. Check back soon.",
+    busy: "We're getting a lot of entries right now. Try again in a few minutes.",
+    closed: "The waitlist isn't accepting entries yet. Check back soon.",
     server: "Something went wrong on our end. Try again in a minute."
   };
   const showError = key => { msg.textContent = ERRORS[key] || ERRORS.server; msg.className = "msg err"; };
@@ -317,7 +317,7 @@
     const token = captchaToken;
     if (!token) return showError("captcha");
 
-    btn.disabled = true; btn.textContent = "Signing up…";
+    btn.disabled = true; btn.textContent = "Joining…";
     try {
       // text/plain keeps this a "simple" request so Apps Script accepts it without a CORS preflight
       const res = await fetch(ENDPOINT, {
@@ -342,7 +342,7 @@
       showError("server");
       if (window.turnstile) { turnstile.reset(); captchaToken = ""; }
     } finally {
-      btn.disabled = false; btn.textContent = "Sign up";
+      btn.disabled = false; btn.textContent = "Join the waitlist";
     }
   });
 })();
