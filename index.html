@@ -29,7 +29,7 @@
   :focus-visible{outline:3px solid var(--signal);outline-offset:3px;border-radius:4px}
 
   /* ---------- night hero ---------- */
-  .night{background:var(--night);color:#fff;position:relative;overflow:hidden}
+  .night{background:var(--night);color:#fff;position:relative;overflow:hidden;min-height:100vh;min-height:100svh;display:flex;flex-direction:column}
   .wrap{max-width:68rem;margin:0 auto;padding:0 1.25rem}
   .top{display:flex;justify-content:space-between;align-items:center;padding:1.5rem 0}
   .logo{font:700 1.25rem/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.01em;text-decoration:none}
@@ -42,11 +42,14 @@
 
   /* data center photo on the right, fading into the night blue */
   .night::before{content:"";position:absolute;inset:0 0 0 auto;width:58%;
-    background:url("https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1600&q=75&auto=format&fit=crop") center/cover no-repeat}
-  .night::after{content:"";position:absolute;inset:0 0 0 auto;width:58%;
-    background:linear-gradient(90deg,var(--night) 0%,rgba(27,35,80,.75) 30%,rgba(60,52,140,.35) 70%,rgba(255,210,74,.12) 100%)}
-  .night .wrap{position:relative;z-index:1}
-  .hero{grid-template-columns:1fr;padding:6rem 0 7rem;min-height:520px;align-items:center}
+    background:linear-gradient(90deg,var(--night) 0%,rgba(27,35,80,.75) 30%,rgba(60,52,140,.35) 70%,rgba(255,210,74,.12) 100%),url("https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1800&q=75&auto=format&fit=crop") center/cover no-repeat;transform-origin:right center}
+  .night .wrap{position:relative;z-index:1;width:100%}
+  .night .hero-wrap{flex:1;display:flex;align-items:center}
+  .scroll-hint{position:absolute;right:max(1.25rem,calc((100vw - 68rem)/2 + 1.25rem));bottom:2rem;z-index:1;
+    color:var(--dusk);font-size:.9rem;text-decoration:none;display:flex;align-items:center;gap:.5rem}
+  .scroll-hint:hover{color:#fff}
+  .scroll-hint svg{width:14px;height:14px}
+  .hero{grid-template-columns:1fr;padding:3rem 0 6rem}
 
   /* how-it-works: steps beside the code photo */
   .how{display:grid;grid-template-columns:1.15fr 1fr;gap:4rem;align-items:stretch}
@@ -104,13 +107,12 @@
 
   @media (max-width:860px){
     .hero,.signup-grid{grid-template-columns:1fr;gap:2.5rem}
-    .hero{padding:2.5rem 0 3.5rem}
+    .hero{padding:2rem 0 5rem}
     .steps{grid-template-columns:1fr 1fr}
     section{padding:3.5rem 0}
   }
   @media (max-width:860px){
-    .night::before,.night::after{width:100%}
-    .night::after{background:linear-gradient(180deg,rgba(27,35,80,.88),rgba(27,35,80,.96))}
+    .night::before{width:100%;background:linear-gradient(180deg,rgba(27,35,80,.88),rgba(27,35,80,.96)),url("https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1800&q=75&auto=format&fit=crop") center/cover no-repeat}
     .how{grid-template-columns:1fr;gap:2.5rem}
     .code-photo{min-height:260px}
     .student{margin-top:1.75rem}
@@ -124,7 +126,7 @@
     html{scroll-behavior:smooth}
     .top{animation:fade .8s ease both}
     .night::before{animation:settle 1.8s cubic-bezier(.2,.7,.2,1) both}
-    .night::after{animation:fade 1.2s ease both}
+    .scroll-hint{animation:fade 1s ease .9s both}
     h1{animation:rise .9s cubic-bezier(.2,.7,.2,1) .15s both}
     .lede{animation:rise .9s cubic-bezier(.2,.7,.2,1) .35s both}
   }
@@ -142,6 +144,9 @@
       <a class="join" href="#signup">Sign up</a>
     </nav>
 
+  </div>
+  <div class="hero-wrap">
+  <div class="wrap">
     <div class="hero">
       <div>
         <h1>Your code can run all week. Your laptop doesn't have to.</h1>
@@ -150,10 +155,14 @@
 
     </div>
   </div>
+  </div>
+  <a class="scroll-hint" href="#how">Scroll down
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 2v11M3 8.5 8 13.5l5-5"/></svg>
+  </a>
 </header>
 
 <main>
-  <section>
+  <section id="how">
     <div class="wrap">
       <div class="how">
       <div>
